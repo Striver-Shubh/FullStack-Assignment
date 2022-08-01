@@ -1,0 +1,15 @@
+<div class="loginOuter">
+  <div class="Main">
+    <h1 class="inputField">Login Form</h1>
+    <div class="inputField">
+      <label for="" id="username">Username</label>
+      <input type="text" name="username" [(ngModel)]="username" />
+    </div>
+    <div class="inputField">
+      <label for="" id="email">Password</label>
+      <input type="password" name="password" [(ngModel)]="password" />
+    </div>
+    <button class="buttonStyle" (click)="submit()">Login</button>
+    <a routerLink="/signup">Not Registered</a>
+  </div>
+</div>

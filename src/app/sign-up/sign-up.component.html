@@ -1,0 +1,23 @@
+<div class="loginOuter">
+  <form class="Main" [formGroup]="Signupform" ng (ngSubmit)="submit()">
+    <h1 class="inputField">Sign Up Form</h1>
+    <div class="inputField">
+      <label for="" id="name">Name</label>
+      <input type="text" name="name" formControlName="name" />
+    </div>
+    <div class="inputField">
+      <label for="" id="username">Username</label>
+      <input type="text" name="username" formControlName="username" />
+    </div>
+    <div class="inputField">
+      <label for="" id="email">Email</label>
+      <input type="email" name="email" formControlName="email" />
+    </div>
+    <div class="inputField">
+      <label for="" id="password">Password</label>
+      <input type="password" name="password" formControlName="password" />
+    </div>
+    <button type="submit" class="buttonStyle">Submit</button>
+    <a routerLink="/login">Already logged in</a>
+  </form>
+</div>
