@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
+import { LoginProfileService } from '../login-profile.service';
 
 @Component({
   selector: 'app-login-page',
@@ -12,7 +13,12 @@ export class LoginPageComponent implements OnInit {
   username: String;
   password: String;
   DataToBeValidated: any;
-  constructor(private http: HttpClient, private route: Router) {
+  ProfileData: any;
+  constructor(
+    private http: HttpClient,
+    private route: Router,
+    private loginService: LoginProfileService
+  ) {
     this.username = '';
     this.password = '';
     this.DataToBeValidated = [];
@@ -38,7 +44,9 @@ export class LoginPageComponent implements OnInit {
       .post<any>(req.url, req.data, { headers: req.headers })
       .subscribe((res) => {
         console.log(res);
-        if (res) {
+        this.ProfileData = res.user;
+        this.loginService.getLoggedData(this.ProfileData);
+        if (res.bool) {
           console.log(res);
           swal.fire({
             title: 'Submit',
@@ -48,6 +56,11 @@ export class LoginPageComponent implements OnInit {
           this.route.navigate(['/profile']);
         } else {
           // res.render('Invalid Credentials');
+          swal.fire({
+            title: 'Try Again',
+            text: 'Invalid Credentials',
+            icon: 'error',
+          });
           console.log('Invalid');
         }
       });

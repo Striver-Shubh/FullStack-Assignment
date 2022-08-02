@@ -57,19 +57,19 @@ Router.post('/signup', async (req, res) => {
 
 Router.post('/login', authenticateToken, async (req, res) => {
   const user = await User.findOne({ username: req.body.username });
-  console.log(Object.keys(req.body));
+  console.log(Object.keys(req.body), user);
   if (user !== null) {
     console.log('Logged In');
     // const accesstoken = jwt.sign({ user: user }, process.env.ACCESS_TOKEN);
     // console.log('AccessToken: ', accesstoken);
     const HashCheck = await bcrypt.compare(req.body.password, user.password);
     console.log(req.body.password, user.password);
-    console.log('HashCheck: ', HashCheck);
-    if (HashCheck) {
-      res.send(true);
+    console.log('HashCheck: ', HashCheck, res.locals);
+    if (HashCheck && res.locals.user) {
+      res.send({ bool: true, user });
       console.log('true');
     } else {
-      res.send(false);
+      res.send({ bool: false });
       console.log('false');
     }
   } else {
@@ -84,19 +84,23 @@ Router.post('/login', authenticateToken, async (req, res) => {
 // });
 
 function authenticateToken(req: any, res: any, next: any) {
-  console.log('Authentication', req);
-  const accesstoken = jwt.sign({ user: 'das2' }, process.env.ACCESS_TOKEN);
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && accesstoken;
-  console.log('token :: ', token);
-  if (token == null) res.sendStatus(401);
-  jwt.verify(token, process.env.ACCESS_TOKEN, (err: any, user: any) => {
+  console.log('Authentication', req.headers);
+  const accesstoken = jwt.sign(
+    { user: req.body.username },
+    process.env.ACCESS_TOKEN
+  );
+  if (accesstoken == null) res.sendStatus(401);
+  jwt.verify(accesstoken, process.env.ACCESS_TOKEN, (err: any, user: any) => {
     if (err) {
       console.log('Error: ', err);
       return res.sendStatus(403);
     }
-    res.user = user;
-    console.log(res.user);
+    const jwtdata = {
+      bod: req.body,
+      user,
+    };
+    console.log({ res });
+    res.locals = jwtdata;
     next();
   });
 }
