@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login-page',
@@ -37,8 +38,19 @@ export class LoginPageComponent implements OnInit {
       .post<any>(req.url, req.data, { headers: req.headers })
       .subscribe((res) => {
         console.log(res);
+        if (res) {
+          console.log(res);
+          swal.fire({
+            title: 'Submit',
+            text: 'Logged In Successfully',
+            icon: 'success',
+          });
+          this.route.navigate(['/profile']);
+        } else {
+          // res.render('Invalid Credentials');
+          console.log('Invalid');
+        }
       });
-    this.route.navigate(['/profile']);
   }
   ngOnInit(): void {}
 }
