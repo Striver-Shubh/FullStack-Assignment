@@ -1,21 +1,95 @@
 <div class="loginOuter">
-  <form class="Main" [formGroup]="Signupform" ng (ngSubmit)="submit()">
+  <form
+    class="Main"
+    [formGroup]="Signupform"
+    #myForm="ngForm"
+    (ngSubmit)="submit()"
+  >
     <h1 class="inputField">Sign Up Form</h1>
     <div class="inputField">
       <label for="" id="name">Name</label>
-      <input type="text" name="name" formControlName="name" />
+      <input
+        type="text"
+        name="name"
+        formControlName="name"
+        [class.is-invalid]="
+          myForm.submitted && Signupform.get('password')?.invalid
+        "
+      />
+      <div *ngIf="myForm.submitted && Signupform.get('name')?.invalid">
+        <small
+          class="text-danger"
+          *ngIf="Signupform.get('name')?.hasError('required')"
+          >Name is required</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="Signupform.get('name')?.hasError('minlength')"
+          >Name must be of 3 character</small
+        >
+      </div>
     </div>
     <div class="inputField">
       <label for="" id="username">Username</label>
-      <input type="text" name="username" formControlName="username" />
+      <input
+        type="text"
+        name="username"
+        formControlName="username"
+        [class.is-invalid]="
+          myForm.submitted && Signupform.get('password')?.invalid
+        "
+      />
+      <div *ngIf="myForm.submitted && Signupform.get('name')?.invalid">
+        <small
+          class="text-danger"
+          *ngIf="Signupform.get('name')?.hasError('required')"
+          >Name is required</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="Signupform.get('name')?.hasError('minlength')"
+          >Name must be of 3 character</small
+        >
+      </div>
     </div>
     <div class="inputField">
       <label for="" id="email">Email</label>
-      <input type="email" name="email" formControlName="email" />
+      <input
+        type="email"
+        name="email"
+        formControlName="email"
+        [class.is-invalid]="
+          myForm.submitted && Signupform.get('password')?.invalid
+        "
+      />
+      <div *ngIf="myForm.submitted && Signupform.get('email')?.invalid">
+        <small
+          class="text-danger"
+          *ngIf="Signupform.get('email')?.hasError('required')"
+          >Email field is required.</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="Signupform.get('email')?.hasError('pattern')"
+          >Email is invalid.</small
+        >
+      </div>
     </div>
     <div class="inputField">
       <label for="" id="password">Password</label>
       <input type="password" name="password" formControlName="password" />
+      <div *ngIf="myForm.submitted && Signupform.get('password')?.invalid">
+        <small
+          class="text-danger"
+          *ngIf="Signupform.get('password')?.hasError('required')"
+          >Password field is required.</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="Signupform.get('password')?.hasError('minlength')"
+          >Password must be of atleast 8 charachters.</small
+        >
+      </div>
     </div>
     <button type="submit" class="buttonStyle">Submit</button>
     <a routerLink="/login">Already logged in</a>

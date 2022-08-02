@@ -8,6 +8,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
     SignUpComponent,
     LoginPageComponent,
     ProfilePageComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,

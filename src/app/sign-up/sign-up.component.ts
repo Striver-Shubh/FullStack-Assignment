@@ -24,15 +24,22 @@ export class SignUpComponent implements OnInit {
   }
   Signupform = this.fb.group(
     {
-      name: ['', Validators.required, Validators.minLength(3)],
-      email: ['', Validators.required, Validators.email],
-      username: ['', Validators.required, Validators.minLength(3)],
-      password: ['', Validators.required, Validators.minLength(6)],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+        ],
+      ],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     },
     { updateOn: 'submit' }
   );
 
   submit() {
+    if (!this.Signupform.valid) return;
     this.GroupData.push(this.Signupform);
     console.log(this.GroupData);
     var req = {
@@ -47,6 +54,7 @@ export class SignUpComponent implements OnInit {
       .post<any>(req.url, req.data, { headers: req.headers })
       .subscribe((res) => {
         console.log(res);
+        if (!res) alert('Username and Email should be unique');
       });
     this.route.navigate(['/login']);
   }

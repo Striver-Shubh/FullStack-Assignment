@@ -45,7 +45,10 @@ export class LoginPageComponent implements OnInit {
       .subscribe((res) => {
         console.log(res);
         this.ProfileData = res.user;
-        this.loginService.getLoggedData(this.ProfileData);
+        this.loginService.getLoggedData({
+          data: this.ProfileData,
+          token: res.locals.token,
+        });
         if (res.bool) {
           console.log(res);
           swal.fire({
@@ -53,7 +56,7 @@ export class LoginPageComponent implements OnInit {
             text: 'Logged In Successfully',
             icon: 'success',
           });
-          this.route.navigate(['/profile']);
+          this.route.navigate(['/profile', res.token]);
         } else {
           // res.render('Invalid Credentials');
           swal.fire({

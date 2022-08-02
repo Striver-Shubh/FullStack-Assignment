@@ -46,6 +46,7 @@ Router.post('/signup', async (req, res) => {
     user.save((err: any, data: any) => {
       if (err) {
         console.log('Error in insertion', err);
+        res.send(false);
       } else {
         const msg = {
           to: user.email,
@@ -83,7 +84,7 @@ Router.post('/login', authenticateToken, async (req, res) => {
     console.log(req.body.password, user.password);
     console.log('HashCheck: ', HashCheck, res.locals);
     if (HashCheck && res.locals.user) {
-      res.send({ bool: true, user });
+      res.send({ bool: true, user, token: res.locals.token });
       console.log('true');
     } else {
       res.send({ bool: false });
@@ -95,7 +96,7 @@ Router.post('/login', authenticateToken, async (req, res) => {
   // res.json(report);
 });
 
-// Router.get('/profile', authenticateToken, (req, res) => {
+// Router.get('/profile/:token', (req, res) => {
 //   console.log('profile Data: ', req.body);
 //   res.send(req.body);
 // });
@@ -115,6 +116,7 @@ function authenticateToken(req: any, res: any, next: any) {
     const jwtdata = {
       bod: req.body,
       user,
+      token: accesstoken,
     };
     console.log({ res });
     res.locals = jwtdata;
