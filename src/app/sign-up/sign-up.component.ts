@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, RequiredValidator } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  RequiredValidator,
+  Validators,
+} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -19,10 +24,10 @@ export class SignUpComponent implements OnInit {
   }
   Signupform = this.fb.group(
     {
-      name: [''],
-      email: [''],
-      username: [''],
-      password: [''],
+      name: ['', Validators.required, Validators.minLength(3)],
+      email: ['', Validators.required, Validators.email],
+      username: ['', Validators.required, Validators.minLength(3)],
+      password: ['', Validators.required, Validators.minLength(6)],
     },
     { updateOn: 'submit' }
   );

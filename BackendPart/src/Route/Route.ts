@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 // import jwt from 'jsonwebtoken';
 const jwt = require('jsonwebtoken');
+const sendGrid = require('@sendgrid/mail');
 
 export const Router = express.Router();
 
@@ -46,12 +47,28 @@ Router.post('/signup', async (req, res) => {
       if (err) {
         console.log('Error in insertion', err);
       } else {
+        const msg = {
+          to: user.email,
+          from: 'tarun.agrawal@geminisolutions.com',
+          subject: 'Welcome to my FullStack World',
+          text: 'Congratulations! You are now a member of our Fullstack World',
+        };
+        sendGrid.setApiKey(process.env.SENDGRID_API_KEY);
+        sendGrid
+          .send(msg)
+          .then((res: any) => {
+            console.log('Mail Sent Succesfully');
+          })
+          .catch((e: any) => {
+            console.error('SendGrid Error', e);
+          });
         console.log('Data Inserted');
       }
       res.status(200).send(true);
     });
   } catch {
     console.log('post error');
+    res.status(404).send(false);
   }
 });
 
