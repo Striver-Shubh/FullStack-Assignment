@@ -9,7 +9,9 @@ import { Router } from '@angular/router';
 })
 export class ProfilePageComponent implements OnInit {
   pdata: any;
-  constructor(private login: LoginProfileService, private route: Router) {}
+  constructor(private login: LoginProfileService, private route: Router) {
+    this.pdata = null;
+  }
 
   showProfile() {
     if (this.login.pdata.data === null) {

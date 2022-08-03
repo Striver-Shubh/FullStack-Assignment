@@ -47,6 +47,7 @@ Router.post('/signup', async (req, res) => {
       if (err) {
         console.log('Error in insertion', err);
         res.send(false);
+        return;
       } else {
         const msg = {
           to: user.email,
@@ -65,11 +66,11 @@ Router.post('/signup', async (req, res) => {
           });
         console.log('Data Inserted');
       }
-      res.status(200).send(true);
+      res.send(true);
     });
   } catch {
     console.log('post error');
-    res.status(404).send(false);
+    res.send(false);
   }
 });
 

@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sign-up',
@@ -53,10 +54,15 @@ export class SignUpComponent implements OnInit {
     this.http
       .post<any>(req.url, req.data, { headers: req.headers })
       .subscribe((res) => {
-        console.log(res);
-        if (!res) alert('Username and Email should be unique');
+        console.log('res:', res);
+        if (res) this.route.navigate(['/login']);
+        else {
+          swal.fire({
+            icon: 'warning',
+            text: 'Username and Email is used before',
+          });
+        }
       });
-    this.route.navigate(['/login']);
   }
   ngOnInit(): void {}
 }
