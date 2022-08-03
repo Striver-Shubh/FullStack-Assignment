@@ -7,28 +7,31 @@ const sendGrid = require('@sendgrid/mail');
 
 export const Router = express.Router();
 
-const SignUpSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+const SignUpSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    index: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    index: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 const User = mongoose.model('Authenticate', SignUpSchema);
 
@@ -97,13 +100,8 @@ Router.post('/login', authenticateToken, async (req, res) => {
   // res.json(report);
 });
 
-// Router.get('/profile/:token', (req, res) => {
-//   console.log('profile Data: ', req.body);
-//   res.send(req.body);
-// });
-
 function authenticateToken(req: any, res: any, next: any) {
-  console.log('Authentication', req.headers);
+  console.log('Authentication');
   const accesstoken = jwt.sign(
     { user: req.body.username },
     process.env.ACCESS_TOKEN
@@ -124,3 +122,33 @@ function authenticateToken(req: any, res: any, next: any) {
     next();
   });
 }
+
+Router.put('/profile/:id', (req, res) => {
+  console.log('Update data', Object.keys(req.body));
+  const user = User.findByIdAndUpdate(
+    req.body._id,
+    req.body,
+    (err: any, data: any) => {
+      if (err) {
+        console.log('Error in update', err);
+        res.send(false);
+      } else {
+        console.log('Data Update');
+        res.send(true);
+      }
+    }
+  );
+});
+
+Router.delete('/profile/:id', (req: any, res: any) => {
+  console.log(req.params, req.params.id);
+  User.findByIdAndDelete({ _id: req.params.id }, (err: any, data: any) => {
+    if (err) {
+      console.log('Error in Delete');
+      res.send(false);
+    } else {
+      console.log('Deleted Account');
+      res.send(true);
+    }
+  });
+});

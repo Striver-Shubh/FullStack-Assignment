@@ -1,0 +1,32 @@
+.heading,
+.form {
+  text-align: center;
+  margin: 30px;
+}
+.form {
+  display: grid;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+.table {
+  margin: 30px;
+  position: relative;
+}
+.table label {
+  background-color: white;
+  position: absolute;
+  padding: 0 5px;
+  left: 40px;
+  top: -10px;
+}
+input {
+  padding: 10px 20px;
+}
+button {
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+.grp-button {
+  display: flex;
+}

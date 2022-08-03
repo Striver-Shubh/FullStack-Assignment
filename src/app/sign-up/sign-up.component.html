@@ -42,12 +42,12 @@
       <div *ngIf="myForm.submitted && Signupform.get('name')?.invalid">
         <small
           class="text-danger"
-          *ngIf="Signupform.get('name')?.hasError('required')"
-          >Name is required</small
+          *ngIf="Signupform.get('username')?.hasError('required')"
+          >Username is required</small
         >
         <small
           class="text-danger"
-          *ngIf="Signupform.get('name')?.hasError('minlength')"
+          *ngIf="Signupform.get('username')?.hasError('minlength')"
           >Name must be of atleast 3 character</small
         >
       </div>

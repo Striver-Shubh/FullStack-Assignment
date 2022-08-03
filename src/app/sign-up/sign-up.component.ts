@@ -34,7 +34,7 @@ export class SignUpComponent implements OnInit {
         ],
       ],
       username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     },
     { updateOn: 'submit' }
   );
@@ -55,8 +55,14 @@ export class SignUpComponent implements OnInit {
       .post<any>(req.url, req.data, { headers: req.headers })
       .subscribe((res) => {
         console.log('res:', res);
-        if (res) this.route.navigate(['/login']);
-        else {
+        if (res) {
+          swal.fire({
+            icon: 'success',
+            title: 'Congratulations',
+            text: 'You are now a registered member, Sign in to visit the website',
+          });
+          this.route.navigate(['/login']);
+        } else {
           swal.fire({
             icon: 'warning',
             text: 'Username and Email is used before',
